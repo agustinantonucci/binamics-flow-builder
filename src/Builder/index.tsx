@@ -14,6 +14,7 @@ import {
   BranchNode,
   ConditionNode,
   LoopNode,
+  SwitchNode,
 } from '../Nodes';
 import { HistoryTool, ZoomTool } from '../Tools';
 import DragPanel from '../DragPanel';
@@ -89,6 +90,8 @@ const Builder = forwardRef<IFlowBuilderMethod>((props, ref) => {
           );
         case 'loop':
           return <LoopNode renderNext={render} />;
+        case 'switch':
+          return <SwitchNode renderConditionNode={renderNode} />;
         default:
           return <CommonNode />;
       }
@@ -181,7 +184,7 @@ const Builder = forwardRef<IFlowBuilderMethod>((props, ref) => {
         width={480}
         destroyOnClose
         maskClosable={false}
-        visible={!!selectedNode}
+        open={!!selectedNode}
         onClose={closeDrawer}
         {...drawerProps}
       >

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import 'systemjs/dist/system.js';
+// import 'systemjs/dist/system.js';
 import type {
   IRegisterNode,
   IRegisterRemoteNode,
@@ -45,16 +45,36 @@ export const getIsBranchNode = (
   registerNodes: IRegisterNode[],
   type?: string,
 ) => {
+  console.log(registerNodes, type);
   const branchNode = getRegisterNode(registerNodes, type);
   const conditionNode = getRegisterNode(
     registerNodes,
     branchNode?.conditionNodeType,
   );
 
+  console.log(branchNode, conditionNode);
+
   return (
     branchNode &&
     conditionNode &&
     branchNode?.type !== branchNode?.conditionNodeType
+  );
+};
+
+export const getIsSwitchNode = (
+  registerNodes: IRegisterNode[],
+  type?: string,
+) => {
+  const switchNode = getRegisterNode(registerNodes, type);
+  const conditionNode = getRegisterNode(
+    registerNodes,
+    switchNode?.conditionNodeType,
+  );
+
+  return (
+    switchNode &&
+    conditionNode &&
+    switchNode?.type !== switchNode?.conditionNodeType
   );
 };
 
@@ -72,6 +92,8 @@ export const getAbstractNodeType: (
     return 'branch';
   } else if (getIsConditionNode(registerNodes, type)) {
     return 'condition';
+  } else if (getIsSwitchNode(registerNodes, type)) {
+    return 'switch';
   } else {
     return 'common';
   }

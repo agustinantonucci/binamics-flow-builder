@@ -16,3 +16,24 @@
     padding: 8px 0;
   }
 }
+.action-button-wrapper {
+  height: 28px;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.action-button-wrapper > .flow-builder-action-button {
+  display: none;
+}
+.action-button-wrapper > .split-line-action-button {
+  width: 2px;
+  background-color: #999;
+  height: 28px;
+}
+.action-button-wrapper:hover > .split-line-action-button {
+  display: none;
+}
+.action-button-wrapper:hover > .flow-builder-action-button {
+  display: flex;
+}

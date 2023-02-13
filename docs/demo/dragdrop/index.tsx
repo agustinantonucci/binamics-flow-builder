@@ -30,29 +30,34 @@ const ConditionNodeDisplay: React.FC = () => {
 const registerNodes: IRegisterNode[] = [
   {
     type: 'start',
-    name: '开始节点',
+    name: 'Start',
     displayComponent: StartNodeDisplay,
     isStart: true,
   },
   {
     type: 'end',
-    name: '结束节点',
+    name: 'End',
     displayComponent: EndNodeDisplay,
     isEnd: true,
   },
   {
     type: 'node',
-    name: '普通节点',
+    name: 'Node',
     displayComponent: NodeDisplay,
   },
   {
     type: 'condition',
-    name: '条件节点',
+    name: 'Condition',
     displayComponent: ConditionNodeDisplay,
   },
   {
     type: 'branch',
-    name: '分支节点',
+    name: 'Branch',
+    conditionNodeType: 'condition',
+  },
+  {
+    type: 'switch',
+    name: 'Switch',
     conditionNodeType: 'condition',
   },
 ];

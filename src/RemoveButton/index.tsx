@@ -5,6 +5,7 @@ import { useAction } from '../hooks';
 import { getRegisterNode } from '../utils';
 
 import RemoveIcon from '../icons/close-one.svg';
+import { FiX } from 'react-icons/fi';
 import './index.less';
 
 const RemoveButton: React.FC = () => {
@@ -19,7 +20,8 @@ const RemoveButton: React.FC = () => {
   return !readonly && !registerNode?.customRemove ? (
     <Popconfirm
       title={
-        registerNode?.removeConfirmTitle || 'Are you sure to remove this node?'
+        registerNode?.removeConfirmTitle ||
+        'Está seguro que desea borrar este nodo?'
       }
       onCancel={(e) => e?.stopPropagation()}
       onConfirm={(e) => {
@@ -28,11 +30,17 @@ const RemoveButton: React.FC = () => {
       }}
       getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
     >
-      <img
+      <span
+        className="flow-builder-node__remove"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <FiX size={14} color="white" />
+      </span>
+      {/* <img
         className="flow-builder-node__remove"
         onClick={(e) => e.stopPropagation()}
         src={RemoveIcon}
-      />
+      /> */}
     </Popconfirm>
   ) : null;
 };

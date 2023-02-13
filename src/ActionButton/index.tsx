@@ -4,11 +4,11 @@ import './index.less';
 
 interface IProps {
   size?: number;
-  icon: string;
+  children: React.ReactNode;
 }
 
 const ActionButton: React.FC<IProps> = (props) => {
-  const { size = 28, icon } = props;
+  const { size = 28, children } = props;
 
   return (
     <div
@@ -19,7 +19,8 @@ const ActionButton: React.FC<IProps> = (props) => {
         borderRadius: `${size / 2}px`,
       }}
     >
-      <img src={icon} />
+      {/* <img src={icon} /> */}
+      {children}
     </div>
   );
 };

@@ -4,35 +4,40 @@ import FlowBuilder, { INode, IRegisterNode } from 'react-flow-builder';
 const registerNodes: IRegisterNode[] = [
   {
     type: 'start',
-    name: '开始节点',
+    name: 'Start',
     isStart: true,
   },
   {
     type: 'end',
-    name: '结束节点',
+    name: 'End',
     isEnd: true,
   },
   {
     type: 'node1',
-    name: '普通节点 1',
+    name: 'node 1',
   },
   {
     type: 'node2',
-    name: '普通节点 2',
+    name: 'node 2',
   },
   {
     type: 'condition',
-    name: '条件节点',
+    name: 'Condition',
   },
   {
     type: 'branch',
-    name: '分支节点',
+    name: 'Branch',
     conditionNodeType: 'condition',
   },
   {
     type: 'loop',
-    name: '循环节点',
+    name: 'Loop',
     isLoop: true,
+  },
+  {
+    type: 'switch',
+    name: 'Switch',
+    conditionNodeType: 'condition',
   },
 ];
 

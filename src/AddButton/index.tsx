@@ -13,9 +13,12 @@ import {
 import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
 
+import { FiPlus } from 'react-icons/fi';
 import AddIcon from '../icons/add-button.svg';
 import AddNormalIcon from '../icons/add-normal.svg';
 import AddBranchIcon from '../icons/add-branch.svg';
+import { MdOutlineCallSplit } from 'react-icons/md';
+import { BsNodePlus } from 'react-icons/bs';
 import './index.less';
 
 interface IProps {
@@ -77,9 +80,15 @@ const AddNodeButton: React.FC<IProps> = (props) => {
     <>
       {options.map((item) => {
         const registerNode = getRegisterNode(registerNodes, item.type);
-        const defaultIcon = getIsBranchNode(registerNodes, item.type)
-          ? AddBranchIcon
-          : AddNormalIcon;
+        const defaultIcon = getIsBranchNode(registerNodes, item.type) ? (
+          // ? AddBranchIcon
+          <MdOutlineCallSplit
+            size={18}
+            style={{ transform: 'rotate(180deg)' }}
+          />
+        ) : (
+          <BsNodePlus size={18} style={{ transform: 'rotate(90deg)' }} />
+        );
         return (
           <div
             className="flow-builder-addable-node-item"
@@ -87,7 +96,7 @@ const AddNodeButton: React.FC<IProps> = (props) => {
             onClick={() => handleAddNode(item.type)}
           >
             <span className="flow-builder-addable-node-icon">
-              {registerNode?.addIcon || <img src={defaultIcon} />}
+              {registerNode?.addIcon || defaultIcon}
             </span>
 
             <span>{item.name}</span>
@@ -113,8 +122,12 @@ const AddNodeButton: React.FC<IProps> = (props) => {
             content={addableOptions}
             getPopupContainer={(triggerNode) => triggerNode as HTMLElement}
           >
-            <div onClick={(e) => e.stopPropagation()}>
-              <ActionButton icon={AddIcon} />
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="action-button-wrapper"
+            >
+              <span className="split-line-action-button" />
+              <ActionButton children={<FiPlus size={18} />} />
             </div>
           </Popover>
         )

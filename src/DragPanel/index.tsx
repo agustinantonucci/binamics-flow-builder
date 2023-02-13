@@ -8,6 +8,8 @@ import AddBranchIcon from '../icons/add-branch.svg';
 import AddConditionIcon from '../icons/add-condition.svg';
 
 import './index.less';
+import { MdOutlineCallSplit } from 'react-icons/md';
+import { BsNodePlus } from 'react-icons/bs';
 
 const DragPanel: React.FC<IDragComponent> = () => {
   const { lineColor, backgroundColor, registerNodes, setDragType } =
@@ -31,11 +33,19 @@ const DragPanel: React.FC<IDragComponent> = () => {
           .filter((item) => !(item.isStart || item.isEnd))
           .map((item) => {
             const registerNode = getRegisterNode(registerNodes, item.type);
-            const defaultIcon = getIsBranchNode(registerNodes, item.type)
-              ? AddBranchIcon
-              : getIsConditionNode(registerNodes, item.type)
-              ? AddConditionIcon
-              : AddNormalIcon;
+            const defaultIcon = getIsBranchNode(registerNodes, item.type) ? (
+              <MdOutlineCallSplit
+                size={18}
+                style={{ transform: 'rotate(180deg)' }}
+              />
+            ) : getIsConditionNode(registerNodes, item.type) ? (
+              <BsNodePlus
+                size={18}
+                // style={{ transform: "rotate(90deg)" }}
+              />
+            ) : (
+              <BsNodePlus size={18} style={{ transform: 'rotate(90deg)' }} />
+            );
 
             return (
               <li
@@ -47,11 +57,9 @@ const DragPanel: React.FC<IDragComponent> = () => {
                 onDragEnd={handleDragEnd}
               >
                 <span className="flow-builder-drag-node-icon">
-                  {registerNode?.addIcon || (
-                    <img src={defaultIcon} draggable={false} />
-                  )}
+                  {registerNode?.addIcon || defaultIcon}
                 </span>
-                <span>{item.name}</span>
+                <span style={{ textAlign: 'center' }}>{item.name}</span>
               </li>
             );
           })}

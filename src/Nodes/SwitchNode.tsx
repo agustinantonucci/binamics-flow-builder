@@ -59,7 +59,7 @@ const SortableItem = SortableElement<ISortableConditionProps>(
   },
 );
 
-const BranchNode: React.FC<IProps> = (props) => {
+const SwitchNode: React.FC<IProps> = (props) => {
   const { renderConditionNode } = props;
 
   const {
@@ -201,4 +201,4 @@ const BranchNode: React.FC<IProps> = (props) => {
   );
 };
 
-export default BranchNode;
+export default SwitchNode;
