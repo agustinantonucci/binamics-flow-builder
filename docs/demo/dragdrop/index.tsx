@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
-import FlowBuilder, {
-  NodeContext,
-  INode,
-  IRegisterNode,
-} from 'react-flow-builder';
+// import {
+//   IRegisterNode,
+// } from 'react-flow-builder';
+import FlowBuilder from '../../../src/FlowBuilder/index';
+import NodeContext from '../../../src/contexts/NodeContext';
+import { INode } from '../../../src/FlowBuilder/index';
+import { IRegisterNode } from '../../../src/FlowBuilder/index';
 
 import './index.css';
 

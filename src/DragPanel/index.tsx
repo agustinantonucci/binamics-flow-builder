@@ -30,7 +30,7 @@ const DragPanel: React.FC<IDragComponent> = () => {
     >
       <ul>
         {registerNodes
-          .filter((item) => !(item.isStart || item.isEnd))
+          .filter((item) => !item.isStart)
           .map((item) => {
             const registerNode = getRegisterNode(registerNodes, item.type);
             const defaultIcon = getIsBranchNode(registerNodes, item.type) ? (

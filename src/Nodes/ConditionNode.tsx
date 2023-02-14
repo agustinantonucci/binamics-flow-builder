@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { Children, useContext, useMemo } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import AddButton from '../AddButton';
 import RemoveButton from '../RemoveButton';
@@ -9,6 +9,7 @@ import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
 import Arrow from '../Arrow';
 import type { INode, IRender } from '../index';
+import { truncate } from 'lodash';
 
 interface IProps {
   parentNode?: INode;
@@ -75,6 +76,231 @@ const ConditionNode: React.FC<IProps> = (props) => {
     return 'cover-middle';
   })(conditionIndex, conditionCount);
 
+  const getHasEnd = () => {
+    let flag = false;
+    if (node) {
+      if (node.children) {
+        if (node.children.length > 0) {
+          if (node.children) {
+            if (node.children.some((child) => child.type === 'end')) {
+              flag = true;
+            }
+          }
+        }
+      }
+    }
+
+    return flag;
+  };
+
+  type ArrayFlag = { index: number; hasEnd: boolean }[];
+
+  const getNextHasEnd = (): ArrayFlag => {
+    let arrayFlag: ArrayFlag = [];
+
+    if (parentNode) {
+      if (parentNode.children) {
+        if (parentNode.children.length > 0) {
+          parentNode.children.forEach((childNode, index) => {
+            if (childNode.children) {
+              if (childNode.children.length > 0) {
+                if (childNode.children.some((child) => child.type === 'end')) {
+                  arrayFlag.push({
+                    index: index,
+                    hasEnd: true,
+                  });
+                } else {
+                  arrayFlag.push({
+                    index: index,
+                    hasEnd: false,
+                  });
+                }
+              } else {
+                arrayFlag.push({
+                  index: index,
+                  hasEnd: false,
+                });
+              }
+            }
+          });
+        }
+      }
+    }
+
+    return arrayFlag;
+  };
+
+  const arrayHasEnd = getNextHasEnd();
+
+  const coverIndexClassNameBottom = ((index: number, total: number) => {
+    // console.log('array: ', arrayHasEnd);
+
+    const tiene = () => {
+      if (index === 0) {
+        if (arrayHasEnd[index].hasEnd && arrayHasEnd[index + 1].hasEnd) {
+          return 'cover-disabled';
+        } else if (arrayHasEnd[index].hasEnd) {
+          return 'cover-disabled';
+        } else if (arrayHasEnd[index + 1].hasEnd) {
+          return 'cover-first';
+        } else {
+          return 'cover-first';
+        }
+      } else if (index === total - 1) {
+        if (arrayHasEnd[index].hasEnd && arrayHasEnd[index - 1].hasEnd) {
+          return 'cover-disabled';
+        } else if (arrayHasEnd[index].hasEnd) {
+          return 'cover-disabled';
+        } else if (arrayHasEnd[index - 1].hasEnd || arrayHasEnd[index - 1]) {
+          return 'cover-last';
+        }
+      } else {
+        if (arrayHasEnd.length % 2 === 0) {
+          console.log(index, total);
+          if (index < total / 2) {
+            if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
+              return 'cover-middle';
+            } else if (arrayHasEnd[index].hasEnd) {
+              return 'cover-disabled';
+            } else {
+              return 'cover-middle move-izq';
+            }
+          } else {
+            console.log(arrayHasEnd.slice(index + 1, total), index);
+            if (
+              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+            ) {
+              return 'cover-middle';
+            } else if (arrayHasEnd[index].hasEnd) {
+              return 'cover-disabled';
+            } else {
+              return 'cover-last move-izq';
+            }
+          }
+        } else {
+          //! ARRAYS IMPARES
+        }
+
+        // if((index+1) < (total / 2)) {
+        //   console.log(index + 1, total / 2)
+
+        // } else if ((index+1) > (total /2)) {
+        //   console.log(index + 1, total / 2)
+        // } else {
+        //   console.log(index + 1);
+        // }
+        // if (total % 2 !== 0) {
+        //   // if (Math.floor(index / 2) == Math.floor(index / 2)) {
+        //   if (
+        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
+        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle';
+        //   } else if (
+        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle move-der';
+        //   } else if (
+        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle move-izq';
+        //   } else {
+        //     return 'cover-disabled';
+        //   }
+        // } else {
+        //   if (
+        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
+        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle';
+        //   } else if (
+        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle move-der';
+        //   } else if (
+        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle move-izq';
+        //   } else {
+        //     return 'cover-disabled';
+        //   }
+        // }
+        // } else {}
+
+        // let arrayTemp = arrayHasEnd.slice(0, index)
+
+        // if (index === total - 2) {
+        //   console.log(index);
+        //   console.log(arrayHasEnd.slice(index + 1, total));
+        //   if (
+        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+        //   ) {
+        //     return 'cover-middle';
+        //   } else {
+        //     return 'cover-middle move-der';
+        //   }
+        // }
+
+        // if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
+        //   return 'cover-middle';
+        // } else if (
+        //   arrayHasEnd.slice(index, total - 1).some((child) => !child.hasEnd)
+        // ) {
+        // } else {
+        //   return 'cover-middle move-izq';
+        // }
+        // if (
+        //   arrayHasEnd[index].hasEnd &&
+        //   arrayHasEnd[index - 1].hasEnd &&
+        //   arrayHasEnd[index + 1].hasEnd
+        // ) {
+        //   return 'cover-disabled';
+        // } else if (
+        //   arrayHasEnd[index - 1].hasEnd &&
+        //   arrayHasEnd[index + 1].hasEnd
+        // ) {
+        //   return 'cover-disabled';
+        // } else if (arrayHasEnd[index - 1].hasEnd) {
+        //   return 'cover-middle move-izq';
+        // } else if (arrayHasEnd[index].hasEnd) {
+        //   return 'cover-middle move-der';
+        // }
+      }
+    };
+    // if(arrayHasEnd[index].hasEnd)
+    let className = tiene();
+    return className;
+
+    // if (index === 0) {
+    //   return 'cover-first';
+    // }
+    // if (index === total - 1) {
+    //   if (getHasEnd()) {
+    //     return 'cover-disabled';
+    //   }
+    //   return 'cover-last';
+    // }
+
+    // if (getHasEnd()) {
+    //   return 'cover-middle mover';
+    // }
+    // return 'cover-middle';
+  })(conditionIndex, conditionCount);
+
+  const renderFillLine = () => {
+    if (node) {
+      if (node.children) {
+        if (node.children.length > 0) {
+          if (node.children[0].type === 'end') {
+            return <></>;
+          }
+        }
+      }
+    }
+
+    return <FillLine />;
+  };
+
   return (
     <div
       className={`flow-builder-node flow-builder-condition-node ${
@@ -92,7 +318,7 @@ const ConditionNode: React.FC<IProps> = (props) => {
           />
           <CoverLine
             full={conditionIndex !== 0 && conditionIndex !== conditionCount - 1}
-            className={`cover-condition-end ${coverIndexClassName}`}
+            className={`cover-condition-end ${coverIndexClassNameBottom}`}
           />
         </>
       ) : null}
@@ -121,7 +347,7 @@ const ConditionNode: React.FC<IProps> = (props) => {
           })
         : null}
 
-      <FillLine />
+      {renderFillLine()}
     </div>
   );
 };

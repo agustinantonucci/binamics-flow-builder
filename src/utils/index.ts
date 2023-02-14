@@ -45,14 +45,11 @@ export const getIsBranchNode = (
   registerNodes: IRegisterNode[],
   type?: string,
 ) => {
-  console.log(registerNodes, type);
   const branchNode = getRegisterNode(registerNodes, type);
   const conditionNode = getRegisterNode(
     registerNodes,
     branchNode?.conditionNodeType,
   );
-
-  console.log(branchNode, conditionNode);
 
   return (
     branchNode &&
