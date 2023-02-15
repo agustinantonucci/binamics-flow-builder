@@ -9,8 +9,6 @@ import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
 import Arrow from '../Arrow';
 import type { INode, IRender } from '../index';
-import { truncate } from 'lodash';
-
 interface IProps {
   parentNode?: INode;
   conditionIndex: number;
@@ -118,14 +116,16 @@ const ConditionNode: React.FC<IProps> = (props) => {
   const coverIndexClassNameBottom = ((index: number, total: number) => {
     const tiene = () => {
       if (index === 0) {
-        if (arrayHasEnd[index].hasEnd && arrayHasEnd[index + 1].hasEnd) {
-          return 'cover-disabled';
-        } else if (arrayHasEnd[index].hasEnd) {
-          return 'cover-disabled';
-        } else if (arrayHasEnd[index + 1].hasEnd) {
-          return 'cover-first';
-        } else {
-          return 'cover-first';
+        if (conditionCount > 1) {
+          if (arrayHasEnd[index].hasEnd && arrayHasEnd[index + 1].hasEnd) {
+            return 'cover-disabled';
+          } else if (arrayHasEnd[index].hasEnd) {
+            return 'cover-disabled';
+          } else if (arrayHasEnd[index + 1].hasEnd) {
+            return 'cover-first';
+          } else {
+            return 'cover-first';
+          }
         }
       } else if (index === total - 1) {
         if (arrayHasEnd[index].hasEnd && arrayHasEnd[index - 1].hasEnd) {

@@ -34,11 +34,6 @@ const registerNodes: IRegisterNode[] = [
     name: 'Loop',
     isLoop: true,
   },
-  {
-    type: 'switch',
-    name: 'Switch',
-    conditionNodeType: 'condition',
-  },
 ];
 
 const Index = () => {

@@ -3,8 +3,6 @@ import { Popconfirm } from 'antd';
 import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
 import { getRegisterNode } from '../utils';
-
-import RemoveIcon from '../icons/close-one.svg';
 import { FiX } from 'react-icons/fi';
 import './index.less';
 
@@ -36,11 +34,6 @@ const RemoveButton: React.FC = () => {
       >
         <FiX size={14} color="white" />
       </span>
-      {/* <img
-        className="flow-builder-node__remove"
-        onClick={(e) => e.stopPropagation()}
-        src={RemoveIcon}
-      /> */}
     </Popconfirm>
   ) : null;
 };

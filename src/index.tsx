@@ -37,8 +37,7 @@ export type AbstractNodeType =
   | 'branch'
   | 'condition'
   | 'loop'
-  | 'common'
-  | 'switch';
+  | 'common';
 
 export interface IRegisterNode {
   type: string;

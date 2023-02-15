@@ -4,16 +4,7 @@ import CommonNode from './CommonNode';
 import BranchNode from './BranchNode';
 import ConditionNode from './ConditionNode';
 import LoopNode from './LoopNode';
-import SwitchNode from './SwitchNode';
 
 import './index.less';
 
-export {
-  StartNode,
-  EndNode,
-  CommonNode,
-  BranchNode,
-  ConditionNode,
-  LoopNode,
-  SwitchNode,
-};
+export { StartNode, EndNode, CommonNode, BranchNode, ConditionNode, LoopNode };

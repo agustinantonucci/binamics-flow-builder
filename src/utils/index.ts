@@ -58,23 +58,6 @@ export const getIsBranchNode = (
   );
 };
 
-export const getIsSwitchNode = (
-  registerNodes: IRegisterNode[],
-  type?: string,
-) => {
-  const switchNode = getRegisterNode(registerNodes, type);
-  const conditionNode = getRegisterNode(
-    registerNodes,
-    switchNode?.conditionNodeType,
-  );
-
-  return (
-    switchNode &&
-    conditionNode &&
-    switchNode?.type !== switchNode?.conditionNodeType
-  );
-};
-
 export const getAbstractNodeType: (
   registerNodes: IRegisterNode[],
   type?: string,
@@ -89,8 +72,6 @@ export const getAbstractNodeType: (
     return 'branch';
   } else if (getIsConditionNode(registerNodes, type)) {
     return 'condition';
-  } else if (getIsSwitchNode(registerNodes, type)) {
-    return 'switch';
   } else {
     return 'common';
   }

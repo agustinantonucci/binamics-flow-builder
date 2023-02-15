@@ -58,7 +58,6 @@ const AddNodeButton: React.FC<IProps> = (props) => {
   const options = registerNodes.filter(
     (item) =>
       !getIsStartNode(registerNodes, item.type) &&
-      // !getIsEndNode(registerNodes, item.type) &&
       !getIsConditionNode(registerNodes, item.type) &&
       (Array.isArray(addableNodeTypes)
         ? addableNodeTypes.includes(item.type)

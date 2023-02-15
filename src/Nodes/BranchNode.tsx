@@ -10,7 +10,7 @@ import { getRegisterNode } from '../utils';
 import type { INode, IRenderNode } from '../index';
 import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
-import AddConditionIcon from '../icons/add-condition.svg';
+import { MdOutlineCallSplit } from 'react-icons/md';
 import Arrow from '../Arrow';
 import { BsNodePlus } from 'react-icons/bs';
 
@@ -121,8 +121,8 @@ const BranchNode: React.FC<IProps> = (props) => {
         registerNode?.className || ''
       }`}
     >
-      <div className="branch-node-condition-div">
-        {node?.data?.condition ? node.data.condition : `condición ? : `}
+      <div className="custom-branch-node">
+        <MdOutlineCallSplit size={18} style={{ transform: 'rotate(180deg)' }} />
       </div>
       <SplitLine />
       <Arrow />

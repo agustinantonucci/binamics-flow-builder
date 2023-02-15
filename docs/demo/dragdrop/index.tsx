@@ -1,11 +1,8 @@
 import React, { useState, useContext } from 'react';
-// import {
-//   IRegisterNode,
-// } from 'react-flow-builder';
 import FlowBuilder from '../../../src/FlowBuilder/index';
 import NodeContext from '../../../src/contexts/NodeContext';
-import { INode } from '../../../src/FlowBuilder/index';
-import { IRegisterNode } from '../../../src/FlowBuilder/index';
+import { INode } from '../../../src/index';
+import { IRegisterNode } from '../../../src/index';
 
 import './index.css';
 
@@ -55,11 +52,6 @@ const registerNodes: IRegisterNode[] = [
   {
     type: 'branch',
     name: 'Branch',
-    conditionNodeType: 'condition',
-  },
-  {
-    type: 'switch',
-    name: 'Switch',
     conditionNodeType: 'condition',
   },
 ];
