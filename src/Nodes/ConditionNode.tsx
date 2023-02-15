@@ -76,23 +76,6 @@ const ConditionNode: React.FC<IProps> = (props) => {
     return 'cover-middle';
   })(conditionIndex, conditionCount);
 
-  const getHasEnd = () => {
-    let flag = false;
-    if (node) {
-      if (node.children) {
-        if (node.children.length > 0) {
-          if (node.children) {
-            if (node.children.some((child) => child.type === 'end')) {
-              flag = true;
-            }
-          }
-        }
-      }
-    }
-
-    return flag;
-  };
-
   type ArrayFlag = { index: number; hasEnd: boolean }[];
 
   const getNextHasEnd = (): ArrayFlag => {
@@ -133,8 +116,6 @@ const ConditionNode: React.FC<IProps> = (props) => {
   const arrayHasEnd = getNextHasEnd();
 
   const coverIndexClassNameBottom = ((index: number, total: number) => {
-    // console.log('array: ', arrayHasEnd);
-
     const tiene = () => {
       if (index === 0) {
         if (arrayHasEnd[index].hasEnd && arrayHasEnd[index + 1].hasEnd) {
@@ -178,28 +159,23 @@ const ConditionNode: React.FC<IProps> = (props) => {
         } else {
           let midIndex = Math.floor(arrayHasEnd.length / 2);
           if (index === midIndex) {
-            console.log('index medio: ', index);
             if (
               arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
               arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
             ) {
-              console.log('cover-middle');
               return 'cover-middle';
             } else if (
               arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
             ) {
-              console.log('cover-last');
               return 'cover-last move-izq';
             } else if (
               arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
             ) {
-              console.log('cover-first');
               return 'cover-first move-izq';
             } else {
               return 'cover-disabled';
             }
-          } else if (index < (total + 1) / 2) {
-            console.log('index menor: ', index);
+          } else if (index < midIndex) {
             if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
               return 'cover-middle';
             } else if (arrayHasEnd[index].hasEnd) {
@@ -207,8 +183,7 @@ const ConditionNode: React.FC<IProps> = (props) => {
             } else {
               return 'cover-middle move-izq';
             }
-          } else if (index > (total + 1) / 2) {
-            console.log('index mayor: ', index);
+          } else if (index > midIndex) {
             if (
               arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
             ) {
@@ -219,7 +194,6 @@ const ConditionNode: React.FC<IProps> = (props) => {
               return 'cover-last move-izq';
             }
           } else {
-            console.log('Entro en default', index);
             return 'cover-middle';
           }
         }
