@@ -156,7 +156,6 @@ const ConditionNode: React.FC<IProps> = (props) => {
         }
       } else {
         if (arrayHasEnd.length % 2 === 0) {
-          console.log(index, total);
           if (index < total / 2) {
             if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
               return 'cover-middle';
@@ -166,7 +165,6 @@ const ConditionNode: React.FC<IProps> = (props) => {
               return 'cover-middle move-izq';
             }
           } else {
-            console.log(arrayHasEnd.slice(index + 1, total), index);
             if (
               arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
             ) {
@@ -178,113 +176,58 @@ const ConditionNode: React.FC<IProps> = (props) => {
             }
           }
         } else {
-          //! ARRAYS IMPARES
+          let midIndex = Math.floor(arrayHasEnd.length / 2);
+          if (index === midIndex) {
+            console.log('index medio: ', index);
+            if (
+              arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
+              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+            ) {
+              console.log('cover-middle');
+              return 'cover-middle';
+            } else if (
+              arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
+            ) {
+              console.log('cover-last');
+              return 'cover-last move-izq';
+            } else if (
+              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+            ) {
+              console.log('cover-first');
+              return 'cover-first move-izq';
+            } else {
+              return 'cover-disabled';
+            }
+          } else if (index < (total + 1) / 2) {
+            console.log('index menor: ', index);
+            if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
+              return 'cover-middle';
+            } else if (arrayHasEnd[index].hasEnd) {
+              return 'cover-disabled';
+            } else {
+              return 'cover-middle move-izq';
+            }
+          } else if (index > (total + 1) / 2) {
+            console.log('index mayor: ', index);
+            if (
+              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+            ) {
+              return 'cover-middle';
+            } else if (arrayHasEnd[index].hasEnd) {
+              return 'cover-disabled';
+            } else {
+              return 'cover-last move-izq';
+            }
+          } else {
+            console.log('Entro en default', index);
+            return 'cover-middle';
+          }
         }
-
-        // if((index+1) < (total / 2)) {
-        //   console.log(index + 1, total / 2)
-
-        // } else if ((index+1) > (total /2)) {
-        //   console.log(index + 1, total / 2)
-        // } else {
-        //   console.log(index + 1);
-        // }
-        // if (total % 2 !== 0) {
-        //   // if (Math.floor(index / 2) == Math.floor(index / 2)) {
-        //   if (
-        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
-        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle';
-        //   } else if (
-        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle move-der';
-        //   } else if (
-        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle move-izq';
-        //   } else {
-        //     return 'cover-disabled';
-        //   }
-        // } else {
-        //   if (
-        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
-        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle';
-        //   } else if (
-        //     arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle move-der';
-        //   } else if (
-        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle move-izq';
-        //   } else {
-        //     return 'cover-disabled';
-        //   }
-        // }
-        // } else {}
-
-        // let arrayTemp = arrayHasEnd.slice(0, index)
-
-        // if (index === total - 2) {
-        //   console.log(index);
-        //   console.log(arrayHasEnd.slice(index + 1, total));
-        //   if (
-        //     arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-        //   ) {
-        //     return 'cover-middle';
-        //   } else {
-        //     return 'cover-middle move-der';
-        //   }
-        // }
-
-        // if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
-        //   return 'cover-middle';
-        // } else if (
-        //   arrayHasEnd.slice(index, total - 1).some((child) => !child.hasEnd)
-        // ) {
-        // } else {
-        //   return 'cover-middle move-izq';
-        // }
-        // if (
-        //   arrayHasEnd[index].hasEnd &&
-        //   arrayHasEnd[index - 1].hasEnd &&
-        //   arrayHasEnd[index + 1].hasEnd
-        // ) {
-        //   return 'cover-disabled';
-        // } else if (
-        //   arrayHasEnd[index - 1].hasEnd &&
-        //   arrayHasEnd[index + 1].hasEnd
-        // ) {
-        //   return 'cover-disabled';
-        // } else if (arrayHasEnd[index - 1].hasEnd) {
-        //   return 'cover-middle move-izq';
-        // } else if (arrayHasEnd[index].hasEnd) {
-        //   return 'cover-middle move-der';
-        // }
       }
     };
-    // if(arrayHasEnd[index].hasEnd)
+
     let className = tiene();
     return className;
-
-    // if (index === 0) {
-    //   return 'cover-first';
-    // }
-    // if (index === total - 1) {
-    //   if (getHasEnd()) {
-    //     return 'cover-disabled';
-    //   }
-    //   return 'cover-last';
-    // }
-
-    // if (getHasEnd()) {
-    //   return 'cover-middle mover';
-    // }
-    // return 'cover-middle';
   })(conditionIndex, conditionCount);
 
   const renderFillLine = () => {
