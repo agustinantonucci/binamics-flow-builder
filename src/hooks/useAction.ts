@@ -52,8 +52,6 @@ const useAction = () => {
   const addNode = (_node: INode | string, _newNodeType?: string) => {
     // one param: new type
     // two params: node, new type
-    console.log(_node, _newNodeType);
-    console.log(currentNode);
     const node = (!!_newNodeType ? _node : currentNode) as INode;
     // console.log(node);
     const newNodeType = (!!_newNodeType ? _newNodeType : _node) as string;
