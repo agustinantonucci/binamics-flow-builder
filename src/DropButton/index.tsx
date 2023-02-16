@@ -7,14 +7,19 @@ import './index.less';
 const DropButton: React.FC<IDropComponent> = (props) => {
   const { onDrop } = props;
 
-  const { backgroundColor } = useContext(BuilderContext);
+  const { backgroundColor, dragType, setDragType } = useContext(BuilderContext);
+
+  console.log(dragType);
 
   return (
     <div
       className="flow-builder-drop-button"
       style={{ backgroundColor }}
       onDragOver={(e) => e.preventDefault()}
-      onDrop={onDrop}
+      onDrop={() => {
+        onDrop;
+        setDragType('');
+      }}
     ></div>
   );
 };

@@ -66,7 +66,7 @@ const defaultNodes = [
   {
     id: 'node-0d9d4733-e48c-41fd-a41f-d93cc4718d97',
     type: 'start',
-    name: 'start',
+    name: 'Start',
     path: ['0'],
   },
   {
@@ -82,7 +82,7 @@ const defaultNodes = [
           {
             id: 'node-f227cd08-a503-48b7-babf-b4047fc9dfa5',
             type: 'node',
-            name: 'node',
+            name: 'Node',
             path: ['1', 'children', '0', 'children', '0'],
           },
         ],
@@ -91,7 +91,7 @@ const defaultNodes = [
       {
         id: 'node-9d393627-24c0-469f-818a-319d9a678707',
         type: 'condition',
-        name: 'condition',
+        name: 'Condition',
         children: [],
         path: ['1', 'children', '1'],
         defecto: true,
@@ -102,13 +102,13 @@ const defaultNodes = [
   {
     id: 'node-972401ca-c4db-4268-8780-5607876d8372',
     type: 'node',
-    name: 'node',
+    name: 'Node',
     path: ['2'],
   },
   {
     id: 'node-b106675a-5148-4a2e-aa86-8e06abd692d1',
     type: 'end',
-    name: 'end',
+    name: 'End',
     path: ['3'],
   },
 ];
@@ -128,15 +128,24 @@ const Dragdrop = () => {
   const [nodes, setNodes] = useState<INode[]>(defaultNodes);
 
   const handleChange = (nodes: INode[]) => {
+    console.log('nodes: ', nodes);
+
+    const hasChildren = (node) => {
+      if (node.children) {
+        node.children.forEach((child, index) => {
+          if (child.defecto) {
+            node.children?.push(node.children.splice(index, 1)[0]);
+            if (child.children.some((child) => child.type === 'branch')) {
+              console.log(child.children);
+            }
+          }
+        });
+      }
+    };
+
     nodes.forEach((node) => {
       if (node.type === 'branch') {
-        if (node.children) {
-          node.children.forEach((child, index) => {
-            if (child.defecto) {
-              node.children?.push(node.children.splice(index, 1)[0]);
-            }
-          });
-        }
+        hasChildren(node);
       }
     });
 

@@ -70,6 +70,7 @@ const AddNodeButton: React.FC<IProps> = (props) => {
   const handleDrop = () => {
     handleAdd(dragType);
     setDragType('');
+    setVisible(false);
   };
 
   const addableOptions = AddableComponent ? (
