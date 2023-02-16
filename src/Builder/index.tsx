@@ -71,6 +71,11 @@ const Builder = forwardRef<IFlowBuilderMethod>((props, ref) => {
 
     const abstractNodeType = getAbstractNodeType(registerNodes, type);
 
+    let defecto = false;
+    if (node.defecto) {
+      defecto = true;
+    }
+
     const renderAbstractNode = () => {
       switch (abstractNodeType) {
         case 'start':
@@ -85,6 +90,7 @@ const Builder = forwardRef<IFlowBuilderMethod>((props, ref) => {
               parentNode={parentNode}
               conditionIndex={nodeIndex}
               renderNext={render}
+              defecto={defecto}
             />
           );
         case 'loop':

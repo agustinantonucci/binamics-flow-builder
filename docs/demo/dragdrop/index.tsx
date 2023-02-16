@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 import FlowBuilder from '../../../src/FlowBuilder/index';
 import NodeContext from '../../../src/contexts/NodeContext';
-import { INode } from '../../../src/index';
-import { IRegisterNode } from '../../../src/index';
+import { INode, IDropComponent, IRegisterNode } from '../../../src/index';
 
 import './index.css';
 
@@ -23,7 +22,9 @@ const NodeDisplay: React.FC = () => {
 
 const ConditionNodeDisplay: React.FC = () => {
   const node = useContext(NodeContext);
-  return <div className="condition-node">{node.name}</div>;
+  return (
+    <div className="condition-node">{node.defecto ? 'Default' : node.name}</div>
+  );
 };
 
 const registerNodes: IRegisterNode[] = [
@@ -66,17 +67,17 @@ const defaultNodes = [
   {
     id: 'node-b2ffe834-c7c2-4f29-a370-305adc03c010',
     type: 'branch',
-    name: '分支节点',
+    name: 'branch',
     children: [
       {
         id: 'node-cf9c8f7e-26dd-446c-b3fa-b2406fc7821a',
         type: 'condition',
-        name: '条件节点',
+        name: 'condition',
         children: [
           {
             id: 'node-f227cd08-a503-48b7-babf-b4047fc9dfa5',
             type: 'node',
-            name: '普通节点',
+            name: 'node',
             path: ['1', 'children', '0', 'children', '0'],
           },
         ],
@@ -85,9 +86,10 @@ const defaultNodes = [
       {
         id: 'node-9d393627-24c0-469f-818a-319d9a678707',
         type: 'condition',
-        name: '条件节点',
+        name: 'condition',
         children: [],
         path: ['1', 'children', '1'],
+        defecto: true,
       },
     ],
     path: ['1'],
@@ -95,7 +97,7 @@ const defaultNodes = [
   {
     id: 'node-972401ca-c4db-4268-8780-5607876d8372',
     type: 'node',
-    name: '普通节点',
+    name: 'node',
     path: ['2'],
   },
   {
@@ -106,18 +108,42 @@ const defaultNodes = [
   },
 ];
 
+const DropComponent: React.FC<IDropComponent> = ({ onDrop }) => {
+  return (
+    <div
+      className="custom-drop"
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={onDrop}
+    ></div>
+  );
+};
+
 const Dragdrop = () => {
   const [nodes, setNodes] = useState<INode[]>(defaultNodes);
 
   const handleChange = (nodes: INode[]) => {
     console.log('nodes change', nodes);
+    // nodes.forEach((node) => {
+    //   if(node.type === "branch") {
+    //     if(node.children) {
+    //       node.children.forEach((child) => {
+    //         if(child.defecto) {
+    //           console.log(child);
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
     setNodes(nodes);
   };
+
+  console.log('defaultNodes: ', defaultNodes);
 
   return (
     <FlowBuilder
       draggable
       nodes={nodes}
+      DropComponent={DropComponent}
       onChange={handleChange}
       registerNodes={registerNodes}
     />

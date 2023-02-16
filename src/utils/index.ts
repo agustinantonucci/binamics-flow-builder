@@ -80,6 +80,7 @@ export const getAbstractNodeType: (
 export const createNewNode = (
   registerNodes: IRegisterNode[],
   type?: string,
+  defecto?: boolean,
 ) => {
   const registerNode = getRegisterNode(registerNodes, type);
 
@@ -95,7 +96,7 @@ export const createNewNode = (
     ? {
         children: [
           createNewNode(registerNodes, registerNode.conditionNodeType),
-          createNewNode(registerNodes, registerNode.conditionNodeType),
+          createNewNode(registerNodes, registerNode.conditionNodeType, true),
         ],
         ...initialNodeData,
       }
@@ -106,12 +107,22 @@ export const createNewNode = (
       }
     : initialNodeData;
 
-  return {
-    id: createUuid(type),
-    type: registerNode.type,
-    name: registerNode.name,
-    ...extraProps,
-  };
+  if (defecto) {
+    return {
+      id: createUuid(type),
+      type: registerNode.type,
+      name: registerNode.name,
+      defecto: defecto,
+      ...extraProps,
+    };
+  } else {
+    return {
+      id: createUuid(type),
+      type: registerNode.type,
+      name: registerNode.name,
+      ...extraProps,
+    };
+  }
 };
 
 export const DFS = (nodes: INode[], allNodes: INode[] = []) => {

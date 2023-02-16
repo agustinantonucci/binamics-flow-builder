@@ -19,7 +19,6 @@ const ActionButton: React.FC<IProps> = (props) => {
         borderRadius: `${size / 2}px`,
       }}
     >
-      {/* <img src={icon} /> */}
       {children}
     </div>
   );

@@ -61,6 +61,7 @@ export interface IRegisterNode {
   showPracticalBranchNode?: boolean;
   showPracticalBranchRemove?: boolean;
   className?: string;
+  defecto?: boolean;
 }
 
 export interface IRegisterRemoteNode {
@@ -79,6 +80,7 @@ export interface INode {
   validateStatusError?: boolean;
   next?: string[];
   [key: string]: any;
+  defecto?: boolean;
 }
 
 export interface IZoomToolConfig {

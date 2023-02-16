@@ -1,4 +1,4 @@
-import React, { Children, useContext, useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import AddButton from '../AddButton';
 import RemoveButton from '../RemoveButton';
@@ -13,10 +13,11 @@ interface IProps {
   parentNode?: INode;
   conditionIndex: number;
   renderNext: (params: IRender) => React.ReactNode;
+  defecto: boolean;
 }
 
 const ConditionNode: React.FC<IProps> = (props) => {
-  const { parentNode, conditionIndex, renderNext } = props;
+  const { parentNode, conditionIndex, renderNext, defecto } = props;
 
   const {
     layout,
@@ -252,7 +253,7 @@ const ConditionNode: React.FC<IProps> = (props) => {
           nodes={nodes}
           remove={removeNode}
         />
-        <RemoveButton />
+        {!defecto && <RemoveButton />}
       </div>
 
       <AddButton />

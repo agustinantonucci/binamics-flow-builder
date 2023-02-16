@@ -14,9 +14,6 @@ import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
 
 import { FiPlus } from 'react-icons/fi';
-import AddIcon from '../icons/add-button.svg';
-import AddNormalIcon from '../icons/add-normal.svg';
-import AddBranchIcon from '../icons/add-branch.svg';
 import { MdOutlineCallSplit } from 'react-icons/md';
 import { BsNodePlus } from 'react-icons/bs';
 import './index.less';
