@@ -172,7 +172,10 @@ const BranchNode: React.FC<IProps> = (props) => {
             }}
           />
         )}
-        <div className="flow-builder-branch-node__conditions">
+        <div
+          className="flow-builder-branch-node__conditions"
+          id={`${node.id}w`}
+        >
           {conditionCount === 1 ? <ConditionsDashed /> : null}
           {children?.map((branch, index) => {
             return sortable ? (
@@ -193,6 +196,10 @@ const BranchNode: React.FC<IProps> = (props) => {
             );
           })}
         </div>
+        <div
+          id={`${node.id}`}
+          style={{ height: '2px', backgroundColor: '#999', width: '0px' }}
+        ></div>
         {sortable ? <SortingDashed /> : null}
       </div>
 

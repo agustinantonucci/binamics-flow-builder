@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import FlowBuilder from '../../../src/FlowBuilder/index';
 import NodeContext from '../../../src/contexts/NodeContext';
 import {
@@ -9,6 +9,8 @@ import {
 } from '../../../src/index';
 
 import './index.css';
+import { calcWidth } from '../../../src/utils/calcWidth';
+import { hasChildrenRecursive } from '../../../src/utils/hasChildrenRecursive';
 
 const StartNodeDisplay: React.FC = () => {
   const node = useContext(NodeContext);
@@ -77,7 +79,7 @@ const defaultNodes = [
       {
         id: 'node-cf9c8f7e-26dd-446c-b3fa-b2406fc7821a',
         type: 'condition',
-        name: 'condition',
+        name: 'Condition',
         children: [
           {
             id: 'node-f227cd08-a503-48b7-babf-b4047fc9dfa5',
@@ -113,31 +115,30 @@ const defaultNodes = [
   },
 ];
 
-// const DropComponent: React.FC<IDropComponent> = ({ onDrop }) => {
-
-//   return (
-//     <div
-//       className="custom-drop"
-//       onDragOver={(e) => e.preventDefault()}
-//       onDrop={onDrop}
-//     ></div>
-//   );
-// };
-
 const Dragdrop = () => {
-  const [nodes, setNodes] = useState<INode[]>(defaultNodes);
+  const [nodes, setNodes] = useState<INode[]>([
+    {
+      id: 'node-0d9d4733-e48c-41fd-a41f-d93cc4718d97',
+      type: 'start',
+      name: 'Start',
+      path: ['0'],
+    },
+  ]);
 
-  const handleChange = (nodes: INode[]) => {
-    console.log('nodes: ', nodes);
+  useEffect(() => {
+    setNodes(defaultNodes);
+  }, []);
 
-    const hasChildren = (node) => {
+  useEffect(() => {
+    const hasChildren = (node: any) => {
+      calcWidth(node.id, node);
       if (node.children) {
-        node.children.forEach((child, index) => {
+        node.children.forEach((child: any, index) => {
+          child.children.forEach((child: any) => {
+            hasChildren(child);
+          });
           if (child.defecto) {
             node.children?.push(node.children.splice(index, 1)[0]);
-            if (child.children.some((child) => child.type === 'branch')) {
-              console.log(child.children);
-            }
           }
         });
       }
@@ -146,6 +147,14 @@ const Dragdrop = () => {
     nodes.forEach((node) => {
       if (node.type === 'branch') {
         hasChildren(node);
+      }
+    });
+  }, [nodes]);
+
+  const handleChange = (nodes: INode[]) => {
+    nodes.forEach((node) => {
+      if (node.type === 'branch') {
+        hasChildrenRecursive(node);
       }
     });
 

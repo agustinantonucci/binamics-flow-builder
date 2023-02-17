@@ -112,98 +112,98 @@ const ConditionNode: React.FC<IProps> = (props) => {
     return arrayFlag;
   };
 
-  const arrayHasEnd = getNextHasEnd();
+  // const arrayHasEnd = getNextHasEnd();
 
-  const coverIndexClassNameBottom = ((index: number, total: number) => {
-    const tiene = () => {
-      if (index === 0) {
-        if (conditionCount > 1) {
-          if (arrayHasEnd[index].hasEnd && arrayHasEnd[index + 1].hasEnd) {
-            return 'cover-disabled';
-          } else if (arrayHasEnd[index].hasEnd) {
-            return 'cover-disabled';
-          } else if (arrayHasEnd[index + 1].hasEnd) {
-            return 'cover-first';
-          } else {
-            return 'cover-first';
-          }
-        }
-      } else if (index === total - 1) {
-        if (arrayHasEnd[index].hasEnd && arrayHasEnd[index - 1].hasEnd) {
-          return 'cover-disabled';
-        } else if (arrayHasEnd[index].hasEnd) {
-          return 'cover-disabled';
-        } else if (arrayHasEnd[index - 1].hasEnd || arrayHasEnd[index - 1]) {
-          return 'cover-last';
-        }
-      } else {
-        if (arrayHasEnd.length % 2 === 0) {
-          if (index < total / 2) {
-            if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
-              return 'cover-middle';
-            } else if (arrayHasEnd[index].hasEnd) {
-              return 'cover-disabled';
-            } else {
-              return 'cover-middle move-izq';
-            }
-          } else {
-            if (
-              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-            ) {
-              return 'cover-middle';
-            } else if (arrayHasEnd[index].hasEnd) {
-              return 'cover-disabled';
-            } else {
-              return 'cover-last move-izq';
-            }
-          }
-        } else {
-          let midIndex = Math.floor(arrayHasEnd.length / 2);
-          if (index === midIndex) {
-            if (
-              arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
-              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-            ) {
-              return 'cover-middle';
-            } else if (
-              arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
-            ) {
-              return 'cover-last move-izq';
-            } else if (
-              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-            ) {
-              return 'cover-first move-izq';
-            } else {
-              return 'cover-disabled';
-            }
-          } else if (index < midIndex) {
-            if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
-              return 'cover-middle';
-            } else if (arrayHasEnd[index].hasEnd) {
-              return 'cover-disabled';
-            } else {
-              return 'cover-middle move-izq';
-            }
-          } else if (index > midIndex) {
-            if (
-              arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
-            ) {
-              return 'cover-middle';
-            } else if (arrayHasEnd[index].hasEnd) {
-              return 'cover-disabled';
-            } else {
-              return 'cover-last move-izq';
-            }
-          } else {
-            return 'cover-middle';
-          }
-        }
-      }
-    };
+  // const coverIndexClassNameBottom = ((index: number, total: number) => {
+  //   const tiene = () => {
+  //     if (index === 0) {
+  //       if (conditionCount > 1) {
+  //         if (arrayHasEnd[index].hasEnd && arrayHasEnd[index + 1].hasEnd) {
+  //           return 'cover-disabled';
+  //         } else if (arrayHasEnd[index].hasEnd) {
+  //           return 'cover-disabled';
+  //         } else if (arrayHasEnd[index + 1].hasEnd) {
+  //           return 'cover-first';
+  //         } else {
+  //           return 'cover-first';
+  //         }
+  //       }
+  //     } else if (index === total - 1) {
+  //       if (arrayHasEnd[index].hasEnd && arrayHasEnd[index - 1].hasEnd) {
+  //         return 'cover-disabled';
+  //       } else if (arrayHasEnd[index].hasEnd) {
+  //         return 'cover-disabled';
+  //       } else if (arrayHasEnd[index - 1].hasEnd || arrayHasEnd[index - 1]) {
+  //         return 'cover-last';
+  //       }
+  //     } else {
+  //       if (arrayHasEnd.length % 2 === 0) {
+  //         if (index < total / 2) {
+  //           if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
+  //             return 'cover-middle';
+  //           } else if (arrayHasEnd[index].hasEnd) {
+  //             return 'cover-disabled';
+  //           } else {
+  //             return 'cover-middle move-izq';
+  //           }
+  //         } else {
+  //           if (
+  //             arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+  //           ) {
+  //             return 'cover-middle';
+  //           } else if (arrayHasEnd[index].hasEnd) {
+  //             return 'cover-disabled';
+  //           } else {
+  //             return 'cover-last move-izq';
+  //           }
+  //         }
+  //       } else {
+  //         let midIndex = Math.floor(arrayHasEnd.length / 2);
+  //         if (index === midIndex) {
+  //           if (
+  //             arrayHasEnd.slice(0, index).some((child) => !child.hasEnd) &&
+  //             arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+  //           ) {
+  //             return 'cover-middle';
+  //           } else if (
+  //             arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)
+  //           ) {
+  //             return 'cover-last move-izq';
+  //           } else if (
+  //             arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+  //           ) {
+  //             return 'cover-first move-izq';
+  //           } else {
+  //             return 'cover-disabled';
+  //           }
+  //         } else if (index < midIndex) {
+  //           if (arrayHasEnd.slice(0, index).some((child) => !child.hasEnd)) {
+  //             return 'cover-middle';
+  //           } else if (arrayHasEnd[index].hasEnd) {
+  //             return 'cover-disabled';
+  //           } else {
+  //             return 'cover-middle move-izq';
+  //           }
+  //         } else if (index > midIndex) {
+  //           if (
+  //             arrayHasEnd.slice(index + 1, total).some((child) => !child.hasEnd)
+  //           ) {
+  //             return 'cover-middle';
+  //           } else if (arrayHasEnd[index].hasEnd) {
+  //             return 'cover-disabled';
+  //           } else {
+  //             return 'cover-last move-izq';
+  //           }
+  //         } else {
+  //           return 'cover-middle';
+  //         }
+  //       }
+  //     }
+  //   };
 
-    let className = tiene();
-    return className;
-  })(conditionIndex, conditionCount);
+  //   let className = tiene();
+  //   return className;
+  // })(conditionIndex, conditionCount);
 
   const renderFillLine = () => {
     if (node) {
@@ -234,10 +234,10 @@ const ConditionNode: React.FC<IProps> = (props) => {
             full={conditionIndex !== 0 && conditionIndex !== conditionCount - 1}
             className={`cover-condition-start ${coverIndexClassName}`}
           />
-          <CoverLine
+          {/* <CoverLine
             full={conditionIndex !== 0 && conditionIndex !== conditionCount - 1}
             className={`cover-condition-end ${coverIndexClassNameBottom}`}
-          />
+          /> */}
         </>
       ) : null}
 
