@@ -31,6 +31,8 @@ const useAction = () => {
 
   const clickNode = (node: INode = currentNode) => {
     const registerNode = getRegisterNode(registerNodes, node.type);
+
+    console.log(readonly);
     if (!readonly && registerNode?.configComponent) {
       const allNodes = DFS(nodes);
       for (const item of allNodes) {

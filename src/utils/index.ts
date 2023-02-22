@@ -25,6 +25,9 @@ export const getIsEndNode = (registerNodes: IRegisterNode[], type?: string) =>
 export const getIsLoopNode = (registerNodes: IRegisterNode[], type?: string) =>
   registerNodes.find((item) => item.type === type)?.isLoop;
 
+export const getIsJumpNode = (registerNodes: IRegisterNode[], type?: string) =>
+  registerNodes.find((item) => item.type === type)?.isJump;
+
 export const getIsConditionNode = (
   registerNodes: IRegisterNode[],
   type?: string,
@@ -72,6 +75,8 @@ export const getAbstractNodeType: (
     return 'branch';
   } else if (getIsConditionNode(registerNodes, type)) {
     return 'condition';
+  } else if (getIsJumpNode(registerNodes, type)) {
+    return 'jump';
   } else {
     return 'common';
   }
@@ -192,7 +197,7 @@ const getNextIds = (
       return getNextIdsByBranchNode(node, allNodes, registerNodes);
     }
     return [nextNode.id];
-  } else if (node.type === 'end') {
+  } else if (node.type === 'end' || node.type === 'jump') {
     return [];
   } else {
     const nextNode = getNextNode(node, allNodes);

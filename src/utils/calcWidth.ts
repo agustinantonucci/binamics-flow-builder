@@ -59,19 +59,11 @@ export const calcWidth = (id: string, node: INode) => {
 
       let arrayOffset = arrayHasEnd.slice(0, primerNoEnd);
 
-      let arrayReach = arrayHasEnd.slice(primerNoEnd, ultimoNoEnd);
-
-      console.log(arrayReach);
-
       if (arrayOffset) {
-        console.log('hay ArrayOffset');
         arrayOffset.forEach((nodo) => {
           let index = nodo.index;
           if (index === 0 || index === arrayHasEnd.length - 1) {
             offset += divs[index].clientWidth / 2;
-            if (index === 0) {
-              offset += divs[index].clientWidth / 2;
-            }
           } else {
             offset += divs[index].clientWidth;
           }
@@ -83,16 +75,12 @@ export const calcWidth = (id: string, node: INode) => {
       if (primerNoEnd !== -1) {
         offset += divs[primerNoEnd].clientWidth / 2;
       }
-      console.log(offset);
-
-      console.log(arrayOffset);
 
       let arrayContenido = arrayHasEnd.slice(primerNoEnd, ultimoNoEnd);
 
       let midIndex = Math.floor(arrayHasEnd.length / 2);
 
       if (arrayContenido.length) {
-        console.log(arrayContenido);
         arrayContenido.forEach((nodo) => {
           let index = nodo.index;
           acumulador += divs[index].clientWidth;
@@ -105,7 +93,7 @@ export const calcWidth = (id: string, node: INode) => {
     }
   }
 
-  console.log(acumulador, offset);
+  // console.log(acumulador, offset, id);
 
   let borderBottom = document.getElementById(id);
 

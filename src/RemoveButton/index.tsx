@@ -4,6 +4,7 @@ import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
 import { getRegisterNode } from '../utils';
 import { FiX } from 'react-icons/fi';
+import { TbTrash } from 'react-icons/tb';
 import './index.less';
 
 const RemoveButton: React.FC = () => {
@@ -15,7 +16,8 @@ const RemoveButton: React.FC = () => {
 
   const registerNode = getRegisterNode(registerNodes, node.type);
 
-  return !readonly && !registerNode?.customRemove ? (
+  return (
+    // !readonly && !registerNode?.customRemove ? (
     <Popconfirm
       title={
         registerNode?.removeConfirmTitle ||
@@ -32,10 +34,11 @@ const RemoveButton: React.FC = () => {
         className="flow-builder-node__remove"
         onClick={(e) => e.stopPropagation()}
       >
-        <FiX size={14} color="white" />
+        <TbTrash size={16} color="white" />
       </span>
     </Popconfirm>
-  ) : null;
+  );
+  // ) : null;
 };
 
 export default RemoveButton;

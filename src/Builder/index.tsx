@@ -23,6 +23,7 @@ import { useHistory, useZoom, useAction, useDrawer } from '../hooks';
 import type { IFlowBuilderMethod, IRender, IRenderNode } from '../index';
 
 import './index.less';
+import { JumpToNode } from '@/Nodes/JumpToNode';
 
 const Builder = forwardRef<IFlowBuilderMethod>((props, ref) => {
   const builderContext = useContext(BuilderContext);
@@ -95,6 +96,8 @@ const Builder = forwardRef<IFlowBuilderMethod>((props, ref) => {
           );
         case 'loop':
           return <LoopNode renderNext={render} />;
+        case 'jump':
+          return <JumpToNode />;
         default:
           return <CommonNode />;
       }

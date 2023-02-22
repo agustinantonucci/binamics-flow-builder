@@ -9,8 +9,6 @@ const DropButton: React.FC<IDropComponent> = (props) => {
 
   const { backgroundColor, dragType, setDragType } = useContext(BuilderContext);
 
-  console.log(dragType);
-
   return (
     <div
       className="flow-builder-drop-button"

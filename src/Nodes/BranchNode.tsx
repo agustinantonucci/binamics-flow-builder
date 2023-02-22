@@ -10,7 +10,6 @@ import { getRegisterNode } from '../utils';
 import type { INode, IRenderNode } from '../index';
 import { BuilderContext, NodeContext } from '../contexts';
 import { useAction } from '../hooks';
-import { MdOutlineCallSplit } from 'react-icons/md';
 import Arrow from '../Arrow';
 import { BsNodePlus } from 'react-icons/bs';
 
@@ -121,8 +120,14 @@ const BranchNode: React.FC<IProps> = (props) => {
         registerNode?.className || ''
       }`}
     >
-      <div className="custom-branch-node">
-        <MdOutlineCallSplit size={18} style={{ transform: 'rotate(180deg)' }} />
+      <div className="flow-builder-node__content" onClick={handleNodeClick}>
+        <Component
+          readonly={readonly}
+          node={node}
+          nodes={nodes}
+          remove={removeNode}
+        />
+        <RemoveButton />
       </div>
       <SplitLine />
       <Arrow />
@@ -145,6 +150,7 @@ const BranchNode: React.FC<IProps> = (props) => {
         </>
       ) : null}
       <div className="flow-builder-branch-node__content">
+        <RemoveButton />
         {!readonly && !disabled ? (
           <div
             className="flow-builder-branch-node__add-button"

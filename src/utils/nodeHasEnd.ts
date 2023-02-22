@@ -10,7 +10,11 @@ export const nodeHasEnd = (node: INode): ArrayFlag => {
         node.children.forEach((childNode, index) => {
           if (childNode.children) {
             if (childNode.children.length > 0) {
-              if (childNode.children.some((child) => child.type === 'end')) {
+              if (
+                childNode.children.some(
+                  (child) => child.type === 'end' || child.type === 'jump',
+                )
+              ) {
                 arrayFlag.push({
                   index: index,
                   hasEnd: true,

@@ -86,7 +86,11 @@ const ConditionNode: React.FC<IProps> = (props) => {
           parentNode.children.forEach((childNode, index) => {
             if (childNode.children) {
               if (childNode.children.length > 0) {
-                if (childNode.children.some((child) => child.type === 'end')) {
+                if (
+                  childNode.children.some(
+                    (child) => child.type === 'end' || child.type === 'jump',
+                  )
+                ) {
                   arrayFlag.push({
                     index: index,
                     hasEnd: true,
@@ -206,10 +210,15 @@ const ConditionNode: React.FC<IProps> = (props) => {
   // })(conditionIndex, conditionCount);
 
   const renderFillLine = () => {
+    console.log(node);
     if (node) {
       if (node.children) {
         if (node.children.length > 0) {
-          if (node.children[0].type === 'end') {
+          if (
+            node.children.some((node) => node.type === 'end') ||
+            node.children.some((node) => node.type === 'jump')
+          ) {
+            // return <div style={{width: "20px", height: "20px", backgroundColor: "red"}}></div>;
             return <></>;
           }
         }
@@ -217,6 +226,24 @@ const ConditionNode: React.FC<IProps> = (props) => {
     }
 
     return <FillLine />;
+  };
+
+  const renderSplitLine = () => {
+    if (node) {
+      if (node.children) {
+        if (node.children.length > 0) {
+          if (
+            node.children.some((node) => node.type === 'end') ||
+            node.children.some((node) => node.type === 'jump')
+          ) {
+            // return <div style={{width: "20px", height: "20px", backgroundColor: "red"}}></div>;
+            return <></>;
+          }
+        }
+      }
+    }
+
+    return <SplitLine />;
   };
 
   return (
@@ -241,7 +268,7 @@ const ConditionNode: React.FC<IProps> = (props) => {
         </>
       ) : null}
 
-      <SplitLine />
+      {<SplitLine />}
 
       <Arrow />
 
@@ -255,7 +282,6 @@ const ConditionNode: React.FC<IProps> = (props) => {
         />
         {!defecto && <RemoveButton />}
       </div>
-
       <AddButton />
 
       {Array.isArray(node.children)

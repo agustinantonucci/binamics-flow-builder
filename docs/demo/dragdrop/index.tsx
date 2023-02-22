@@ -11,6 +11,8 @@ import {
 import './index.css';
 import { calcWidth } from '../../../src/utils/calcWidth';
 import { hasChildrenRecursive } from '../../../src/utils/hasChildrenRecursive';
+import { MdOutlineCallSplit } from 'react-icons/md';
+import { RiArrowGoBackLine } from 'react-icons/ri';
 
 const StartNodeDisplay: React.FC = () => {
   const node = useContext(NodeContext);
@@ -32,6 +34,19 @@ const ConditionNodeDisplay: React.FC = () => {
   return (
     <div className="condition-node">{node.defecto ? 'Default' : node.name}</div>
   );
+};
+
+const BranchNodeDisplay: React.FC = () => {
+  const node = useContext(NodeContext);
+  return (
+    <div className="custom-branch-node">
+      <MdOutlineCallSplit size={18} style={{ transform: 'rotate(180deg)' }} />
+    </div>
+  );
+};
+
+const JumpToNodeDisplay: React.FC = () => {
+  return <div className="other-node">Saltar a</div>;
 };
 
 const registerNodes: IRegisterNode[] = [
@@ -61,6 +76,14 @@ const registerNodes: IRegisterNode[] = [
     type: 'branch',
     name: 'Branch',
     conditionNodeType: 'condition',
+    displayComponent: BranchNodeDisplay,
+  },
+  {
+    type: 'jump',
+    name: 'Saltar a',
+    displayComponent: JumpToNodeDisplay,
+    addIcon: <RiArrowGoBackLine />,
+    addableNodeTypes: [],
   },
 ];
 

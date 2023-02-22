@@ -37,7 +37,8 @@ export type AbstractNodeType =
   | 'branch'
   | 'condition'
   | 'loop'
-  | 'common';
+  | 'common'
+  | 'jump';
 
 export interface IRegisterNode {
   type: string;
@@ -56,6 +57,7 @@ export interface IRegisterNode {
   isStart?: boolean;
   isEnd?: boolean;
   isLoop?: boolean;
+  isJump?: boolean;
   configTitle?: string | ((node: INode, nodes: INode[]) => string);
   initialNodeData?: Record<string, any>;
   showPracticalBranchNode?: boolean;
