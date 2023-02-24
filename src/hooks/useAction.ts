@@ -32,7 +32,6 @@ const useAction = () => {
   const clickNode = (node: INode = currentNode) => {
     const registerNode = getRegisterNode(registerNodes, node.type);
 
-    console.log(readonly);
     if (!readonly && registerNode?.configComponent) {
       const allNodes = DFS(nodes);
       for (const item of allNodes) {
@@ -55,7 +54,7 @@ const useAction = () => {
     // one param: new type
     // two params: node, new type
     const node = (!!_newNodeType ? _node : currentNode) as INode;
-    // console.log(node);
+
     const newNodeType = (!!_newNodeType ? _newNodeType : _node) as string;
 
     const registerNode = getRegisterNode(registerNodes, newNodeType);

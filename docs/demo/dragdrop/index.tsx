@@ -1,15 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import FlowBuilder from '../../../src/FlowBuilder/index';
 import NodeContext from '../../../src/contexts/NodeContext';
-import {
-  INode,
-  IDropComponent,
-  IRegisterNode,
-  BuilderContext,
-} from '../../../src/index';
+import { INode, IRegisterNode } from '../../../src/index';
+
+import { isEqual } from 'lodash';
 
 import './index.css';
-import { calcWidth } from '../../../src/utils/calcWidth';
 import { hasChildrenRecursive } from '../../../src/utils/hasChildrenRecursive';
 import { MdOutlineCallSplit } from 'react-icons/md';
 import { RiArrowGoBackLine } from 'react-icons/ri';
@@ -84,6 +80,7 @@ const registerNodes: IRegisterNode[] = [
     displayComponent: JumpToNodeDisplay,
     addIcon: <RiArrowGoBackLine />,
     addableNodeTypes: [],
+    isJump: true,
   },
 ];
 
@@ -139,48 +136,35 @@ const defaultNodes = [
 ];
 
 const Dragdrop = () => {
-  const [nodes, setNodes] = useState<INode[]>([
-    {
-      id: 'node-0d9d4733-e48c-41fd-a41f-d93cc4718d97',
-      type: 'start',
-      name: 'Start',
-      path: ['0'],
-    },
-  ]);
+  const [nodes, setNodes] = useState<INode[]>(defaultNodes);
+  const prevNodesRef = useRef<INode[]>(defaultNodes);
 
   useEffect(() => {
-    setNodes(defaultNodes);
-  }, []);
-
-  useEffect(() => {
-    const hasChildren = (node: any) => {
-      calcWidth(node.id, node);
-      if (node.children) {
-        node.children.forEach((child: any, index) => {
-          child.children.forEach((child: any) => {
-            hasChildren(child);
-          });
-          if (child.defecto) {
-            node.children?.push(node.children.splice(index, 1)[0]);
-          }
-        });
-      }
-    };
-
-    nodes.forEach((node) => {
+    const updatedNodes = nodes.map((node) => {
       if (node.type === 'branch') {
-        hasChildren(node);
+        return hasChildrenRecursive(node);
+      } else {
+        return node;
       }
     });
+
+    const prevNodes = prevNodesRef.current;
+
+    if (!isEqual(updatedNodes, prevNodes)) {
+      setNodes(updatedNodes);
+    }
+
+    prevNodesRef.current = nodes;
+    // if (nodes) {
+    //   nodes.forEach((node) => {
+    //     if (node.type === 'branch') {
+    //       hasChildrenRecursive(node, nodes, setNodes);
+    //     }
+    //   });
+    // }
   }, [nodes]);
 
   const handleChange = (nodes: INode[]) => {
-    nodes.forEach((node) => {
-      if (node.type === 'branch') {
-        hasChildrenRecursive(node);
-      }
-    });
-
     setNodes(nodes);
   };
 

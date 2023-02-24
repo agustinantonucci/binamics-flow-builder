@@ -63,6 +63,7 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "lodash.get": "^4.4.2",
     "react-icons": "^4.7.1",
     "react-sortable-hoc": "^2.0.0",

@@ -3,7 +3,20 @@ import { nodeHasEnd } from './nodeHasEnd';
 
 export const calcWidth = (id: string, node: INode) => {
   let wrapper = document.getElementById(`${id}w`);
+
+  if (!wrapper) {
+    return;
+  }
+
   let widthWrapper = wrapper?.clientWidth;
+
+  if (!widthWrapper) {
+    return;
+  }
+
+  if (!wrapper.children) {
+    return;
+  }
 
   let observer = new MutationObserver((mutationsList) => {
     for (let mutation of mutationsList) {
@@ -23,77 +36,91 @@ export const calcWidth = (id: string, node: INode) => {
   let acumulador = 0;
   let offset = 0;
 
-  let primerNoEnd = -1;
+  let primerNoEnd = -2;
   let ultimoNoEnd = -1;
 
-  if (arrayHasEnd.every((child) => !child.hasEnd) && arrayHasEnd.length > 1) {
-    if (wrapper?.children) {
-      let divs = [...wrapper?.children];
-      divs.forEach((item, index) => {
-        if (index === 0 || index === arrayHasEnd.length - 1) {
-          acumulador += item.clientWidth / 2;
-          if (index === 0) {
-            offset += item.clientWidth / 2;
-          }
-        } else {
-          acumulador += item.clientWidth;
-        }
-      });
-    }
-  } else {
-    if (wrapper?.children) {
-      primerNoEnd = arrayHasEnd.findIndex((nodo) => !nodo.hasEnd);
+  let divs = [...wrapper.children];
 
-      type ArrayFlag = { index: number; hasEnd: boolean }[];
-
-      const lastIndexOf = (array: ArrayFlag, flag: boolean) => {
-        for (let i = array.length - 1; i >= 0; i--) {
-          if (array[i].hasEnd === flag) return i;
-        }
-        return -1;
-      };
-
-      ultimoNoEnd = lastIndexOf(arrayHasEnd, false);
-
-      let divs: any = [...wrapper?.children];
-
-      let arrayOffset = arrayHasEnd.slice(0, primerNoEnd);
-
-      if (arrayOffset) {
-        arrayOffset.forEach((nodo) => {
-          let index = nodo.index;
-          if (index === 0 || index === arrayHasEnd.length - 1) {
-            offset += divs[index].clientWidth / 2;
-          } else {
-            offset += divs[index].clientWidth;
-          }
-        });
-      } else {
-        offset = divs[0].clientWith / 2;
-      }
-
-      if (primerNoEnd !== -1) {
-        offset += divs[primerNoEnd].clientWidth / 2;
-      }
-
-      let arrayContenido = arrayHasEnd.slice(primerNoEnd, ultimoNoEnd);
-
-      let midIndex = Math.floor(arrayHasEnd.length / 2);
-
-      if (arrayContenido.length) {
-        arrayContenido.forEach((nodo) => {
-          let index = nodo.index;
-          acumulador += divs[index].clientWidth;
-        });
-      } else if (ultimoNoEnd !== midIndex) {
-        if (widthWrapper) {
-          acumulador += widthWrapper / 2 - offset;
-        }
-      }
-    }
+  if (!divs) {
+    return;
   }
 
-  // console.log(acumulador, offset, id);
+  let midIndex = Math.floor(arrayHasEnd.length / 2);
+
+  if (arrayHasEnd.every((child) => !child.hasEnd) && arrayHasEnd.length > 1) {
+    divs.forEach((item, index) => {
+      if (index === 0 || index === arrayHasEnd.length - 1) {
+        acumulador += item.clientWidth / 2;
+        if (index === 0) {
+          offset += item.clientWidth / 2;
+        }
+      } else {
+        acumulador += item.clientWidth;
+      }
+    });
+  } else {
+    primerNoEnd = arrayHasEnd.findIndex((nodo) => !nodo.hasEnd);
+
+    type ArrayFlag = { index: number; hasEnd: boolean }[];
+
+    const lastIndexOf = (array: ArrayFlag, flag: boolean) => {
+      for (let i = array.length - 1; i >= 0; i--) {
+        if (array[i].hasEnd === flag) return i;
+      }
+      return -1;
+    };
+
+    ultimoNoEnd = lastIndexOf(arrayHasEnd, false);
+
+    let arrayOffset = arrayHasEnd.slice(0, primerNoEnd);
+
+    let medio = widthWrapper / 2;
+
+    if (arrayOffset.length === 0) {
+      offset += divs[0].clientWidth / 2;
+    } else {
+      offset += divs[0].clientWidth / 2;
+      arrayOffset.forEach((nodo, indice) => {
+        let index = nodo.index;
+
+        offset += divs[index].clientWidth;
+      });
+    }
+
+    let offsetRight = 0;
+
+    let arrayOffsetRight = arrayHasEnd.slice(ultimoNoEnd, -1);
+
+    arrayOffsetRight.forEach((nodo, indice) => {
+      let index = nodo.index;
+      offsetRight += divs[index].clientWidth;
+    });
+
+    if (divs[arrayHasEnd.length - 1]) {
+      offsetRight += divs[arrayHasEnd.length - 1].clientWidth / 2;
+    }
+
+    if (offset > medio) {
+      offset = medio;
+    }
+
+    if (offsetRight > medio) {
+      offsetRight = medio;
+    }
+
+    if (primerNoEnd >= 0 && ultimoNoEnd >= 0) {
+      if (primerNoEnd === midIndex) {
+        if (offset > medio) {
+          offset = medio;
+        }
+      } else if (primerNoEnd > midIndex) {
+        offset = medio;
+      }
+      acumulador = widthWrapper - offset - offsetRight;
+    } else {
+      acumulador = 0;
+    }
+  }
 
   let borderBottom = document.getElementById(id);
 

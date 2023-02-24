@@ -2,14 +2,16 @@ import { calcWidth } from './calcWidth';
 
 export const hasChildrenRecursive = (node: any) => {
   calcWidth(node.id, node);
+
   if (node.children) {
-    node.children.forEach((child: any, index: number) => {
-      child.children.forEach((child: any) => {
-        hasChildrenRecursive(child);
-      });
-      if (child.defecto) {
-        node.children?.push(node.children.splice(index, 1)[0]);
-      }
-    });
+    const newChildren = node.children.filter((child: any) => !child.defecto);
+    const defectoChildren = node.children.filter((child: any) => child.defecto);
+    const sortedChildren = [...newChildren, ...defectoChildren];
+    const updatedChildren: any = sortedChildren.map((child: any) =>
+      hasChildrenRecursive(child),
+    );
+    return { ...node, children: updatedChildren };
+  } else {
+    return node;
   }
 };
